@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<title>Editar Categoría</title>
+	<style>
+		.card {
+			margin-top: 20px;
+		}
+
+		.card-header {
+			background-color: #f0f0f0;
+		}
+
+		.form-group {
+			margin-bottom: 20px;
+		}
+
+		label {
+			font-weight: bold;
+		}
+	</style>
+	<script>
+		function mostrarMensaje() {
+			alert("Categoría actualizada correctamente");
+		}
+	</script>
+</head>
+
+<body>
+	<header class="bg-dark text-center text-white p-3">
+		<h1>Editar Categoría</h1>
+	</header>
+
+	<main class="container mt-4">
+		<div class="row justify-content-center">
+			<div class="col-lg-6">
+				<form th:action="@{/guardarCategoria}" th:object="${categoria}" method="POST" onsubmit="mostrarMensaje()">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="m-0">Formulario</h3>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="codigo">Código</label>
+								<input th:field="*{idCategoria}" id="codigo" type="text" class="form-control" readonly>
+							</div>
+							<div class="form-group">
+								<label for="nombre">Nombre</label>
+								<input th:field="*{nombre_categoria}" id="nombre_categoria" type="text" class="form-control">
+							</div>
+						</div>
+						<div class="card-footer">
+							<input type="submit" value="Guardar" class="btn btn-success">
+							<a th:href="@{/Categorias}" class="btn btn-info col-2">Regresar</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</main>
+
+</body>
+
+</html>

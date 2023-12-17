@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="Formulario.css">
+    <title>Registrar Producto</title>
+	<style>
+		/* Estilos */
+	</style>
+	<script>
+
+		function mostrarMensaje() {
+			alert("Producto registrado correctamente");
+		}
+		
+		 window.onload = function () {
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function (event) {
+            const descripcionInput = document.getElementById('descripcion');
+            const precioInput = document.getElementById('precio');
+            const stockInput = document.getElementById('stock');
+            const descripcionError = document.getElementById('descripcionError');
+            const precioError = document.getElementById('precioError');
+            const stockError = document.getElementById('stockError');
+            let isValid = true;
+
+            if (descripcionInput.value.trim() === '') {
+                descripcionError.textContent = 'Debe ingresar una descripción';
+                isValid = false;
+            } else {
+                descripcionError.textContent = '';
+            }
+
+            if (precioInput.value <= 0 || isNaN(precioInput.value)) {
+                precioError.textContent = 'Debe ingresar un precio válido mayor a 0';
+                isValid = false;
+            } else {
+                precioError.textContent = '';
+            }
+
+            if (stockInput.value <= 0 || isNaN(stockInput.value)) {
+                stockError.textContent = 'Debe ingresar un stock válido mayor a 0';
+                isValid = false;
+            } else {
+                stockError.textContent = '';
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+                alert('Debe completar todos los campos correctamente.');
+            } else {
+                // Si el formulario es válido, mostramos el mensaje al final del registro
+                form.addEventListener('submit', mostrarMensaje);
+            }
+        });
+    };
+    </script>
+</head>
+
+<body>
+    <header class="bg-dark text-center text-white p-3">
+        <h1>Registrar Producto</h1>
+    </header>
+
+    <main class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <form th:action="@{/guardarProducto}" th:object="${producto}" method="POST">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="m-0">Formulario</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="codigo">Código</label>
+                                <input th:field="*{idProducto}" id="codigo" type="text" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="descripcion">Descripcion</label>
+                                <input th:field="*{descripcion}" id="descripcion" type="text" class="form-control"
+                                    required>
+                                <small class="form-text text-danger" id="descripcionError"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="categoria">Categoria</label>
+                                <select class="form-control mb-4 col-4" name="cbo_cat" th:field="*{id_categoria}">
+                                    <option th:each="categoria:${categoria}" th:value="${categoria.idCategoria}"
+                                        th:text="${categoria.nombre_categoria}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="marca">Marca</label>
+                                <select class="form-control mb-4 col-4" name="cbo_marca" th:field="*{id_marca}">
+                                    <option th:each="marca:${marca}" th:value="${marca.idMarca}"
+                                        th:text="${marca.nombre_marca}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="precio">Precio</label>
+                                <input th:field="*{precio}" id="precio" type="number" class="form-control" min="0"
+                                    required>
+                                <small class="form-text text-danger" id="precioError"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="stock">Stock</label>
+                                <input th:field="*{stock}" id="stock" type="number" class="form-control" min="0"
+                                    required>
+                                <small class="form-text text-danger" id="stockError"></small>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Guardar" class="btn btn-success">
+                             <a th:href="@{/Productos}" class="btn btn-info col-2">Regresar</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
